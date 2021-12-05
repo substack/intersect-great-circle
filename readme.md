@@ -1,4 +1,4 @@
-# great-circle-intersect
+# intersect-great-circle
 
 calculate the intersection of two great circle arcs
 
@@ -9,7 +9,7 @@ algorithm based on https://www.edwilliams.org/intersect.htm
 # example
 
 ``` js
-var intersect = require('great-circle-intersect')
+var intersect = require('intersect-great-circle')
 var seattle = [-122.33,+47.61]
 var chicago = [-87.65,+41.85]
 var denver = [-104.98,+39.74]

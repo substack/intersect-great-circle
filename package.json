@@ -1,5 +1,5 @@
 {
-  "name": "great-circle-intersect",
+  "name": "intersect-great-circle",
   "version": "1.0.0",
   "description": "calculate the intersection of two great circle arcs",
   "dependencies": {
