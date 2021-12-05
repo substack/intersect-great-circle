@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "gl-vec3": "^1.1.3"
+  }
+}
