@@ -2,6 +2,7 @@
 var normalize = require('gl-vec3/normalize')
 var cross = require('gl-vec3/cross')
 var ea = [0,0,0], eb = [0,0,0]
+var sol0 = [0,0], sol1 = [0,0]
 
 module.exports = function (out, p1, p2, p3, p4) {
   var lon1 = -p1[0]/180*Math.PI, lat1 = p1[1]/180*Math.PI
@@ -13,7 +14,32 @@ module.exports = function (out, p1, p2, p3, p4) {
   normalize(ea, ea)
   normalize(eb, eb)
   cross(ea, ea, eb)
-  return toLonLat(out, ea)
+  toLonLat(sol0, ea)
+  sol1[0] = sol0[0] - Math.sign(sol0[0])*180
+  sol1[1] = -sol0[1]
+
+  var meridian = (p1[0] > +90 && p2[0] < -90) || (p1[0] < -90 && p2[0] > +90)
+    || (p3[0] > +90 && p4[0] < -90) || (p3[0] < -90 && p4[0] > +90)
+
+  var h0 = Math.min(Math.abs(p1[0]-sol0[0]), Math.abs(p2[0]-sol0[0]))
+  var h1 = Math.min(Math.abs(p1[0]-sol1[0]), Math.abs(p2[0]-sol1[0]))
+  if (h0 <= h1) {
+    out[0] = sol0[0]
+    out[1] = sol0[1]
+  } else {
+    out[0] = sol1[0]
+    out[1] = sol1[1]
+  }
+  if (meridian && p1[0] > 0 && p2[0] < 0 && out[0] < p1[0] && out[0] > p2[0]) {
+    return null
+  } else if (meridian && p1[0] < 0 && p2[0] > 0 && out[0] > p1[0] && out[0] < p2[0]) {
+    return null
+  } else if (!meridian && out[0] < Math.min(p1[0],p2[0],p3[0],p4[0])) {
+    return null
+  } else if (!meridian && out[0] > Math.max(p1[0],p2[0],p3[0],p4[0])) {
+    return null
+  }
+  return out
 }
 
 function scross(out, ax, ay, bx, by) {
