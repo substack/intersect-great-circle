@@ -18,9 +18,7 @@ module.exports = function (out, p1, p2, p3, p4) {
   sol1[0] = sol0[0] - Math.sign(sol0[0])*180
   sol1[1] = -sol0[1]
 
-  var meridian = (p1[0] > +90 && p2[0] < -90) || (p1[0] < -90 && p2[0] > +90)
-    || (p3[0] > +90 && p4[0] < -90) || (p3[0] < -90 && p4[0] > +90)
-
+  var meridian = Math.abs(p1[0]-p2[0]) > 180 || Math.abs(p3[0]-p4[0]) > 180
   var h0 = Math.min(Math.abs(p1[0]-sol0[0]), Math.abs(p2[0]-sol0[0]))
   var h1 = Math.min(Math.abs(p1[0]-sol1[0]), Math.abs(p2[0]-sol1[0]))
   if (h0 <= h1) {
