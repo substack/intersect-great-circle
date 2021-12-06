@@ -1,6 +1,6 @@
 {
   "name": "intersect-great-circle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "calculate the intersection of two great circle arcs",
   "dependencies": {
     "gl-vec3": "^1.1.3"
