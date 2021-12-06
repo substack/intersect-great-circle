@@ -130,7 +130,19 @@ test('verify result against exaustive search (3)', function (t) {
 })
 
 test('no intersection', function (t) {
-  var computed = intersect([],seattle,calgary,denver,chicago)
-  t.strictEqual(computed, null, 'null intersection')
+  var c0 = intersect([],seattle,calgary,denver,chicago)
+  t.strictEqual(c0, null, 'null intersection')
+  var v1 = [seattle[0],seattle[1]]
+  var c1 = intersect(v1,v1,calgary,denver,chicago)
+  t.strictEqual(c1, null, 'null intersection with 1st output argument')
+  var v2 = [calgary[0],calgary[1]]
+  var c2 = intersect(v2,seattle,v2,denver,chicago)
+  t.strictEqual(c2, null, 'null intersection with 2nd output argument')
+  var v3 = [denver[0],denver[1]]
+  var c3 = intersect(v3,seattle,calgary,v3,chicago)
+  t.strictEqual(c3, null, 'null intersection with 3rd output argument')
+  var v4 = [chicago[0],chicago[1]]
+  var c4 = intersect(v4,seattle,calgary,denver,v4)
+  t.strictEqual(c4, null, 'null intersection with 4th output argument')
   t.end()
 })
