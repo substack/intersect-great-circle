@@ -21,22 +21,25 @@ module.exports = function (out, p1, p2, p3, p4) {
   var meridian = Math.abs(p1[0]-p2[0]) > 180 || Math.abs(p3[0]-p4[0]) > 180
   var h0 = Math.min(Math.abs(p1[0]-sol0[0]), Math.abs(p2[0]-sol0[0]))
   var h1 = Math.min(Math.abs(p1[0]-sol1[0]), Math.abs(p2[0]-sol1[0]))
+  var outx = 0, outy = 0
   if (h0 <= h1) {
-    out[0] = sol0[0]
-    out[1] = sol0[1]
+    outx = sol0[0]
+    outy = sol0[1]
   } else {
-    out[0] = sol1[0]
-    out[1] = sol1[1]
+    outx = sol1[0]
+    outy = sol1[1]
   }
-  if (meridian && p1[0] > 0 && p2[0] < 0 && out[0] < p1[0] && out[0] > p2[0]) {
+  if (meridian && p1[0] > 0 && p2[0] < 0 && outx < p1[0] && outx > p2[0]) {
     return null
-  } else if (meridian && p1[0] < 0 && p2[0] > 0 && out[0] > p1[0] && out[0] < p2[0]) {
+  } else if (meridian && p1[0] < 0 && p2[0] > 0 && outx > p1[0] && outx < p2[0]) {
     return null
-  } else if (!meridian && out[0] < Math.min(p1[0],p2[0],p3[0],p4[0])) {
+  } else if (!meridian && outx < Math.min(p1[0],p2[0],p3[0],p4[0])) {
     return null
-  } else if (!meridian && out[0] > Math.max(p1[0],p2[0],p3[0],p4[0])) {
+  } else if (!meridian && outx > Math.max(p1[0],p2[0],p3[0],p4[0])) {
     return null
   }
+  out[0] = outx
+  out[1] = outy
   return out
 }
 
