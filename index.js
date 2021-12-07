@@ -30,8 +30,29 @@ module.exports = function (out, p1, p2, p3, p4) {
     vout[1] = sol1[1]
   }
 
-  if (Math.max(hdist(vout,p1),hdist(vout,p2)) > hdist(p1,p2)) return null
-  if (Math.max(hdist(vout,p3),hdist(vout,p4)) > hdist(p3,p4)) return null
+  var dv1 = hdist(vout,p1), dv2 = hdist(vout,p2), d12 = hdist(p1,p2)
+  var dv3 = hdist(vout,p3), dv4 = hdist(vout,p4), d34 = hdist(p3,p4)
+  if (Math.max(dv1,dv2) > d12) return null
+  if (Math.max(dv3,dv4) > d34) return null
+  var m12 = Math.abs(p1[0]-p2[0]) > 180
+  var m34 = Math.abs(p3[0]-p4[0]) > 180
+  if (m12 && p1[0] > 0 && p2[0] < 0 && vout[0] < p1[0] && vout[0] > p2[0]) {
+    return null
+  } else if (m12 && p1[0] < 0 && p2[0] > 0 && vout[0] > p1[0] && vout[0] < p2[0]) {
+    return null
+  } else if (!m12 && vout[0] < Math.min(p1[0],p2[0])) {
+    return null
+  } else if (!m12 && vout[0] > Math.max(p1[0],p2[0])) {
+    return null
+  } else if (m34 && p3[0] > 0 && p4[0] < 0 && vout[0] < p3[0] && vout[0] > p4[0]) {
+    return null
+  } else if (m34 && p3[0] < 0 && p4[0] > 0 && vout[0] > p3[0] && vout[0] < p4[0]) {
+    return null
+  } else if (!m34 && vout[0] < Math.min(p3[0],p4[0])) {
+    return null
+  } else if (!m34 && vout[0] > Math.max(p3[0],p4[0])) {
+    return null
+  }
   out[0] = vout[0]
   out[1] = vout[1]
   return out
