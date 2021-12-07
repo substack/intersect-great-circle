@@ -4,9 +4,9 @@ var cross = require('gl-vec3/cross')
 var ea = [0,0,0], eb = [0,0,0]
 var sol0 = [0,0], sol1 = [0,0]
 var vout = [0,0], v0 = [0,0], v1 = [0,0]
-var epsilon = 1e-10
 
-module.exports = function (out, p1, p2, p3, p4) {
+module.exports = function (out, p1, p2, p3, p4, e) {
+  if (e === undefined) e = 1e-8
   var lon1 = -p1[0]/180*Math.PI, lat1 = p1[1]/180*Math.PI
   var lon2 = -p2[0]/180*Math.PI, lat2 = p2[1]/180*Math.PI
   var lon3 = -p3[0]/180*Math.PI, lat3 = p3[1]/180*Math.PI
@@ -36,21 +36,21 @@ module.exports = function (out, p1, p2, p3, p4) {
   if (Math.max(dv3,dv4) > d34) return null
   var m12 = Math.abs(p1[0]-p2[0]) > 180
   var m34 = Math.abs(p3[0]-p4[0]) > 180
-  if (m12 && p1[0] > 0 && p2[0] < 0 && vout[0] < p1[0] && vout[0] > p2[0]) {
+  if (m12 && p1[0] > 0 && p2[0] < 0 && vout[0] + e < p1[0] && vout[0] > p2[0] + e) {
     return null
-  } else if (m12 && p1[0] < 0 && p2[0] > 0 && vout[0] > p1[0] && vout[0] < p2[0]) {
+  } else if (m12 && p1[0] < 0 && p2[0] > 0 && vout[0] > p1[0] + e && vout[0] + e < p2[0]) {
     return null
-  } else if (!m12 && vout[0] < Math.min(p1[0],p2[0])) {
+  } else if (!m12 && vout[0] + e < Math.min(p1[0],p2[0])) {
     return null
-  } else if (!m12 && vout[0] > Math.max(p1[0],p2[0])) {
+  } else if (!m12 && vout[0] > Math.max(p1[0],p2[0]) + e) {
     return null
-  } else if (m34 && p3[0] > 0 && p4[0] < 0 && vout[0] < p3[0] && vout[0] > p4[0]) {
+  } else if (m34 && p3[0] > 0 && p4[0] < 0 && vout[0] + e < p3[0] && vout[0] > p4[0] + e) {
     return null
-  } else if (m34 && p3[0] < 0 && p4[0] > 0 && vout[0] > p3[0] && vout[0] < p4[0]) {
+  } else if (m34 && p3[0] < 0 && p4[0] > 0 && vout[0] > p3[0] + e && vout[0] + e < p4[0]) {
     return null
-  } else if (!m34 && vout[0] < Math.min(p3[0],p4[0])) {
+  } else if (!m34 && vout[0] + e < Math.min(p3[0],p4[0])) {
     return null
-  } else if (!m34 && vout[0] > Math.max(p3[0],p4[0])) {
+  } else if (!m34 && vout[0] > Math.max(p3[0],p4[0]) + e) {
     return null
   }
   out[0] = vout[0]

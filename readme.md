@@ -30,7 +30,7 @@ output:
 var intersect = require('great-circle-intersect')
 ```
 
-## intersect(out, A, B, C, D)
+## intersect(out, A, B, C, D, epsilon=1e-8)
 
 Calculate the intersection of 2 arcs defined by the points `A`, `B`, `C`, and `D`,
 storing the result in `out`.
@@ -40,6 +40,9 @@ The first arc is defined by points A and B. The second arc is defined by points 
 Each point is a 2-element array `[lon,lat]` in decimal degrees.
 
 If there is no intersection, returns null. Otherwise returns `out`.
+
+Optionally provide an `epsilon` to control tolerance for rounding errors to decide when there is an
+intersection.
 
 # install
 
